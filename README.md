@@ -30,3 +30,4 @@ Method#2 (We use this one.)
 Installing MIMIC-III in a local Postgres database
 https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/
 
+
