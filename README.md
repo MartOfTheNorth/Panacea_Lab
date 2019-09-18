@@ -24,14 +24,14 @@ Previous versions:
 In this project, we will use 9.2.24.
 
 ## Part 2 - Create MIMIC-III in a local Postgres database
-- Method#1
-PostgreSQL loading scripts:
-- [https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres](https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres)
+- Method#1:
+  - PostgreSQL loading scripts:
+  - [https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres](https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres)
 
 
-- Method#2 (We use this one.)
-Installing MIMIC-III in a local Postgres database
-- [https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/](https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/)
+- Method#2 (We use this one.):
+  - Installing MIMIC-III in a local Postgres database
+  - [https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/](https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/)
 
 
 
