@@ -47,6 +47,6 @@ In this project, we will use 9.2.24.
     - $ cp /mnt/local/hdd/mimicIII/1.4/* /mnt/local/hdd/mimicIII/1.4unzip/
     - $ gunzip *.gz 
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_load_data.sql -v mimic_data_dir='/mnt/local/hdd/mimicIII/1.4unzip/'  > /output20190918.log 2>&1 &
-    - $ tail -t  output20190918.log 
+    - $ tail -f  output20190918.log  
 
 
