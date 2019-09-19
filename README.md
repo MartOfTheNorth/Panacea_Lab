@@ -49,5 +49,6 @@ In this project, we will use 9.2.24.
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_load_data.sql -v mimic_data_dir='/mnt/local/hdd/mimicIII/1.4unzip/'  > /output20190918.log 2>&1 &
     - $  nohup  psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_load_data.sql -v mimic_data_dir='/mnt/local/hdd/mimicIII/1.4unzip/'  &>>  /home/mart/output20190918.log  &
     - $ tail -f  output20190918.log  
+    - $ psql 'dbname=mimic3 user=mart options=--search_path=mimic3'  -f postgres_checks.sql 
 
 
