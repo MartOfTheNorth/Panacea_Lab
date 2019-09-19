@@ -88,5 +88,5 @@ In this project, we will use 9.2.24.
  transfers          |         261897 |         261897 | PASSED
 (26 rows)
 
-[mart@deepml postgres]$ 
+[mimicuser@deepml postgres]$ 
 ```
