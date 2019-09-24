@@ -139,7 +139,7 @@ In this project, we will use 9.2.24.
     - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     - $ export OMOP_SCHEMA='omop'
-    - $ export OMOP='host=localhost dbname=mimic3 user=mart options=--search_path='$OMOP_SCHEMA
+    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ psql "$OMOP" -c "DROP SCHEMA IF EXISTS $OMOP_SCHEMA CASCADE;"
     - $ psql "$OMOP" -c "CREATE SCHEMA $OMOP_SCHEMA;"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
