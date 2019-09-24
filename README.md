@@ -90,3 +90,22 @@ In this project, we will use 9.2.24.
 
 [mimicuser@deepml postgres]$ 
 ```
+### Part 2.3 Continue improving MIMIC-III database
+    - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_add_indexes.sql 
+
+
+## Part 3 Mapping the MIMIC-III database to the OMOP schema 
+    - References:
+    - MIMIC-OMOP
+      - Mapping the MIMIC-III database to the OMOP schema
+      - https://github.com/MIT-LCP/mimic-omop
+    - OMOP Common Data Model 
+      - Definition and DDLs for the OMOP Common Data Model (CDM) 
+      - https://github.com/OHDSI/CommonDataModel
+
+#### Part 3.1 Panacea lab procedure 
+
+
+
+
+
