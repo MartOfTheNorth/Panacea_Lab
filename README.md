@@ -33,7 +33,7 @@ In this project, we will use 9.2.24.
   - Installing MIMIC-III in a local Postgres database
   - [https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/](https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/)
 
-### Part 2.1 Panacea lab procedure 
+### Part 2.1 Panacea lab procedure  (6 hours)
     - $ psql -U mimicuser -d mimic1
     - => \c mimic1;
     - => set search_path to mimic1;
@@ -53,8 +53,17 @@ In this project, we will use 9.2.24.
 
 
 
-### Part 2.2 MIMIC-III is ready 
+### Part 2.2 MIMIC-III is ready (3 minutes)
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1'  -f postgres_checks.sql 
+    - => grant select on all tables in schema mimic3 to mart;
+    - => grant usage on schema mimic3 to mart;
+    - => grant connect on database mimic3 to mart;
+    - => alter user mart nosuperuser;
+    - => select count(subject_id)
+    - -> from mimic3.patients;
+    - => select count(subject_id)    
+    - -> from patients; 
+
 
 ```
 [mimicuser@deepml postgres]$  psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1'  -f postgres_checks.sql 
@@ -90,7 +99,7 @@ In this project, we will use 9.2.24.
 
 [mimicuser@deepml postgres]$ 
 ```
-### Part 2.3 Continue improving MIMIC-III database
+### Part 2.3 Continue improving MIMIC-III database (30 minutes)
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_add_indexes.sql 
 
 
@@ -98,13 +107,57 @@ In this project, we will use 9.2.24.
     - References:
     - MIMIC-OMOP
       - Mapping the MIMIC-III database to the OMOP schema
-      - https://github.com/MIT-LCP/mimic-omop
+      - [https://github.com/MIT-LCP/mimic-omop](https://github.com/MIT-LCP/mimic-omop)
+
     - OMOP Common Data Model 
       - Definition and DDLs for the OMOP Common Data Model (CDM) 
-      - https://github.com/OHDSI/CommonDataModel
+      - [https://github.com/OHDSI/CommonDataModel](https://github.com/OHDSI/CommonDataModel)      
+     
+    - mimic-omop/README-run-etl.md
+      - Running the ETL on PostgreSQL
+      - [https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md](https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md)  
+
+    - MIT-LCP/mimic-omop
+      - Build OMOP tables with standard concepts
+      - [https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md](https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md)           
+ 
+     - Download the vocabulary
+      - ATHENA standardized vocabularies
+      - [https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ ](https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ )            
+
 
 #### Part 3.1 Panacea lab procedure 
-
+    - $ postgres -V
+    - $ sudo apt-get install pgtap
+    - $ git clone git@github.com:MIT-LCP/mimic-omop.git
+    - $ git clone https://github.com/MIT-LCP/mimic-omop.git
+    - $ cd mimic-omop/
+    - $ git clone https://github.com/OHDSI/CommonDataModel.git
+    - $ cd CommonDataModel
+    - $ git reset --hard 0ac0f4bd56c7372dcd3417461a91f17a6b118901
+    - $ cd ..
+    - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
+    - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
+    - $ export OMOP_SCHEMA='omop'
+    - $ export OMOP='host=localhost dbname=mimic3 user=mart options=--search_path='$OMOP_SCHEMA
+    - $ psql "$OMOP" -c "DROP SCHEMA IF EXISTS $OMOP_SCHEMA CASCADE;"
+    - $ psql "$OMOP" -c "CREATE SCHEMA $OMOP_SCHEMA;"
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/mimic-omop-alter.sql"
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_cdm_comments.sql"
+    - $ ln -s /data/vocab/ extras/athena
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
