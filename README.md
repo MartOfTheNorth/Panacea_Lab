@@ -125,6 +125,11 @@ In this project, we will use 9.2.24.
       - ATHENA standardized vocabularies
       - [https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ ](https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ )            
 
+     - Maven
+      - Install Apache Maven on Linux
+      - [https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html](https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html)   
+
+
 
 #### Part 3.1 Panacea lab procedure 
     - $ postgres -V
@@ -145,6 +150,14 @@ In this project, we will use 9.2.24.
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/mimic-omop-alter.sql"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_cdm_comments.sql"
+    - $ cd ~
+    - $ git clone https://github.com/OHDSI/Athena.git
+    - $ java -version
+    - Download apache-maven-3.6.2-bin.tar.gz
+    - $ cd Athena
+    - $ mvn package
+    
+    
     - $ ln -s /data/vocab/ extras/athena
     
     
