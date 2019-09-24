@@ -133,6 +133,9 @@ In this project, we will use 9.2.24.
 
 #### Part 3.1 Panacea lab procedure 
     - $ postgres -V
+    - $ export OMOP_SCHEMA='omop'
+    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
     - $ sudo apt-get install pgtap
     - $ git clone git@github.com:MIT-LCP/mimic-omop.git
     - $ git clone https://github.com/MIT-LCP/mimic-omop.git
@@ -145,20 +148,19 @@ In this project, we will use 9.2.24.
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic3 user=mart options=--search_path=mimic3'
     - $ psql "$OMOP" -c "DROP SCHEMA IF EXISTS $OMOP_SCHEMA CASCADE;"
     - $ psql "$OMOP" -c "CREATE SCHEMA $OMOP_SCHEMA;"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/mimic-omop-alter.sql"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_cdm_comments.sql"
-    - $ cd ~
-    - $ git clone https://github.com/OHDSI/Athena.git
-    - $ java -version
-    - Download apache-maven-3.6.2-bin.tar.gz
-    - $ cd Athena
-    - $ mvn package
+    - $ ls -l /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019
+    - $ cd /home/mart/mimic-omop
+    - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
+    - $ nohup  psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20190923.log  &
+    - $ cd /home/mart/mimic-omop
+    - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
     
-    
-    - $ ln -s /data/vocab/ extras/athena
     
     
     
