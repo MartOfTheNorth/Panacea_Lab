@@ -184,6 +184,10 @@ In this project, we will use 9.2.24.
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
     -
+    -
+    -
+    -
+    -
     -#Check the ETL has run properly
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
