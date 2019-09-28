@@ -148,7 +148,7 @@ In this project, we will use 9.2.24.
     - $ cd ..
     - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
-    - # Define PSQL connection
+    -#Define PSQL connection
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - # no need$ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
@@ -170,14 +170,18 @@ In this project, we will use 9.2.24.
     -#Create local MIMIC-III concepts  (60 minutes)
     - $ cd /home/mart/mimic-omop
     - psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
-    -#Load the concepts from the CSV files
+    -#Load the concepts from the CSV files (3 minutes)
     - $ cd /home/mart/mimic-omop    
     - $ vi mimic-omop.cfg 
     - $ R
     - > install.packages(c("RPostgres"))
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
-    -#Run the ETL
+    -#Run the ETL 
+    - $ cd /home/mart/mimic-omop       
+    - $ set search_path to mimic1;
+    - $ export MIMIC='host=localhost dbname=mimic1 user=username options=--search_path=mimic1'
     - psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
+    -
     -#Check the ETL has run properly
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
