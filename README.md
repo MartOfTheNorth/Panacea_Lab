@@ -132,11 +132,13 @@ In this project, we will use 9.2.24.
 
 
 #### Part 3.1 Panacea lab procedure 
+    -#Set environment (3 minutes)
     - $ postgres -V
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
     - $ sudo apt-get install pgtap
+    -#Build OMOP  (3 minutes)
     - $ git clone git@github.com:MIT-LCP/mimic-omop.git
     - $ git clone https://github.com/MIT-LCP/mimic-omop.git
     - $ cd mimic-omop/
@@ -146,22 +148,35 @@ In this project, we will use 9.2.24.
     - $ cd ..
     - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
+    - # Define PSQL connection
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
-    - $ export MIMIC='host=localhost dbname=mimic3 user=mart options=--search_path=mimic3'
+    - # no need$ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
+    -#Build omop schema (1 minute)
+    - $ /home/mart/mimic-omop
     - $ psql "$OMOP" -c "DROP SCHEMA IF EXISTS $OMOP_SCHEMA CASCADE;"
     - $ psql "$OMOP" -c "CREATE SCHEMA $OMOP_SCHEMA;"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
+    -#Alter (1 minute)
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/mimic-omop-alter.sql"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_cdm_comments.sql"
+    -#To import the vocabulary. Copy from /home/large_data/OHDSI_vocabulary-May2019 to /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019 (6 minutes)
     - $ ls -l /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019
     - $ cd /home/mart/mimic-omop
     - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
     - $ nohup  psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20190923.log  &
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
-    
-    
-    
-    
-    
+    -#Create local MIMIC-III concepts  (6 minutes)
+    - $ cd /home/mart/mimic-omop
+    - psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
+    - $ vi mimic-omop.cfg 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    -#(Optional) Indexes may slow down importing of data - so you may want to only build these after running the full ETL.
+    -psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
+    -psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"
