@@ -176,16 +176,18 @@ In this project, we will use 9.2.24.
     - $ R
     - > install.packages(c("RPostgres"))
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
-    -#Run the ETL 
+    -#Run the ETL  (30 minutes)
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
-    - $ export MIMIC='host=localhost dbname=mimic1 user=username options=--search_path=mimic1'
-    - psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
+    - $ export OMOP_SCHEMA='omop'
+    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
+    - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
     -
     -#Check the ETL has run properly
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
-    - 
+
     -
     -
     -
