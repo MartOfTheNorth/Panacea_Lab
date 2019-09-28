@@ -176,7 +176,7 @@ In this project, we will use 9.2.24.
     - $ R
     - > install.packages(c("RPostgres"))
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
-    -#Run the ETL  (30 minutes)
+    -#Run the ETL  (60 minutes)
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
     - $ export OMOP_SCHEMA='omop'
