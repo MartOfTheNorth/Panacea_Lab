@@ -167,15 +167,26 @@ In this project, we will use 9.2.24.
     - $ nohup  psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20190923.log  &
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
-    -#Create local MIMIC-III concepts  (6 minutes)
+    -#Create local MIMIC-III concepts  (60 minutes)
     - $ cd /home/mart/mimic-omop
     - psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
+    -#Load the concepts from the CSV files
+    - $ cd /home/mart/mimic-omop    
     - $ vi mimic-omop.cfg 
+    - $ R
+    - > install.packages(c("RPostgres"))
+    - $ Rscript etl/ConceptTables/loadTables.R mimiciii
+    -#Run the ETL
+    - psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
+    -#Check the ETL has run properly
+    - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
+    - psql "$MIMIC" -f "etl/check_etl.sql"
     - 
-    - 
-    - 
-    - 
-    - 
+    -
+    -
+    -
+    -
+    -
     - 
     -#(Optional) Indexes may slow down importing of data - so you may want to only build these after running the full ETL.
     -psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
