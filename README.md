@@ -168,8 +168,6 @@ In this project, we will use 9.2.24.
     - $ nohup  psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20190928a.log  &     (3 minutes)
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql     (3 minutes)
-    
-    
     -#Create local MIMIC-III concepts  (60 minutes)
     - $ cd /home/mart/mimic-omop
     - psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
