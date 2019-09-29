@@ -72,7 +72,7 @@ In this project, we will use 9.2.24.
  admissions         |          58976 |          58976 | PASSED
  callout            |          34499 |          34499 | PASSED
  caregivers         |           7567 |           7567 | PASSED
- chartevents        |      330712483 |      661424966 | FAILED
+ chartevents        |      330712483 |      330712483 | PASSED
  cptevents          |         573146 |         573146 | PASSED
  datetimeevents     |        4485937 |        4485937 | PASSED
  d_cpt              |            134 |            134 | PASSED
@@ -193,9 +193,17 @@ In this project, we will use 9.2.24.
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
 
-    -
-    -
-    -
+```
+    -#Check number of row of all tables in schema
+    -select table_schema, 
+       table_name, 
+       (xpath('/row/cnt/text()', xml_count))[1]::text::int as row_count
+from (
+  select table_name, table_schema, 
+         query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name), false, true, '') as xml_count
+  from information_schema.tables
+  where table_schema = 'mimic3' and table_name NOT IN ('admissions') ) t ;
+```
     -
     -
     - 
