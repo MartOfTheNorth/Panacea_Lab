@@ -187,8 +187,6 @@ In this project, we will use 9.2.24.
     -
     -
     -
-    -
-    -
     -#Check the ETL has run properly
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
@@ -204,8 +202,21 @@ from (
   from information_schema.tables
   where table_schema = 'mimic3' and table_name NOT IN ('admissions') ) t ;
 ```
-    -
-    -
+    - https://stackoverflow.com/questions/2596670/how-do-you-find-the-row-count-for-all-your-tables-in-postgres/2611745#2611745
+```
+SELECT schemaname,relname,n_live_tup 
+  FROM pg_stat_user_tables 
+  ORDER BY n_live_tup DESC;
+  
+SELECT 
+  nspname AS schemaname,relname,reltuples
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE 
+  nspname NOT IN ('pg_catalog', 'information_schema') AND
+  relkind='r' 
+ORDER BY reltuples DESC;  
+```
     - 
     -#(Optional) Indexes may slow down importing of data - so you may want to only build these after running the full ETL.
     -psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
