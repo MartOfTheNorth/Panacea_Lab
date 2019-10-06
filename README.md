@@ -139,9 +139,11 @@ In this project, we will use 9.2.24.
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
     - $ sudo apt-get install pgtap
     -#Build OMOP  (3 minutes)
+    - $ rm -rf mimic-omop
     - $ git clone git@github.com:MIT-LCP/mimic-omop.git
     - $ git clone https://github.com/MIT-LCP/mimic-omop.git
     - $ cd mimic-omop/
+    -#Clone Common Data Model v6.0
     - $ git clone https://github.com/OHDSI/CommonDataModel.git
     - $ cd CommonDataModel
     - $ git reset --hard 0ac0f4bd56c7372dcd3417461a91f17a6b118901
@@ -165,19 +167,20 @@ In this project, we will use 9.2.24.
     - $ ls -l /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019
     - $ cd /home/mart/mimic-omop
     - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
-    - $ nohup  psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20190928a.log  &     (3 minutes)
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20191006.log    (3 minutes)
+    
+    -#Create local MIMIC-III concepts  (A3+B3+C60 minutes)
     - $ cd /home/mart/mimic-omop
-    - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql     (3 minutes)
-    -#Create local MIMIC-III concepts  (60 minutes)
-    - $ cd /home/mart/mimic-omop
-    - psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql
-    -#Load the concepts from the CSV files (3 minutes)
+    - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql     (A3 minutes)
+
+    -#Load the concepts from the CSV files (B3 minutes)
     - $ cd /home/mart/mimic-omop    
     - $ vi mimic-omop.cfg 
     - $ R
     - > install.packages(c("RPostgres"))
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
-    -#Run the ETL  (60 minutes)
+    
+    -#Run the ETL  (C60 minutes)
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
     - $ export OMOP_SCHEMA='omop'
