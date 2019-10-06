@@ -172,6 +172,7 @@ In this project, we will use 9.2.24.
     -#Create local MIMIC-III concepts  (A3+B3+C60 minutes)
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql     (A3 minutes)
+ZZZZZZZZzzzzzzzZZ Here
 
     -#Load the concepts from the CSV files (B3 minutes)
     - $ cd /home/mart/mimic-omop    
