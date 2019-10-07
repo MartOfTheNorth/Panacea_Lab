@@ -169,25 +169,28 @@ In this project, we will use 9.2.24.
     - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20191006.log    (3 minutes)
     
-    -#Create local MIMIC-III concepts  (A3+B3+C60 minutes)
+    -#Create local MIMIC-III concepts  (3 minutes)
     - $ cd /home/mart/mimic-omop
-    - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql     (A3 minutes)
-ZZZZZZZZzzzzzzzZZ Here
+    - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql   
 
-    -#Load the concepts from the CSV files (B3 minutes)
+    -#Load the concepts from the CSV files (3 minutes)
     - $ cd /home/mart/mimic-omop    
     - $ vi mimic-omop.cfg 
+    - dbname=mimic1
+    - user=mimicuser
     - $ R
     - > install.packages(c("RPostgres"))
+    - > quit("yes")
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
     
-    -#Run the ETL  (C60 minutes)
+    -#Run the ETL  (12 hours)
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
+    - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql" >>  /home/mart/output20191006.log     
     -
     -
     -
