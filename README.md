@@ -194,7 +194,7 @@ In this project, we will use 9.2.24.
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql" >>  /home/mart/output20191006.log     
 
-    -#Note: If feeding a big pile of SQL to psql then add \echo to help tracking into "etl/etl.sql" as below;
+    -#Note: If feeding a big pile of SQL to psql then add \echo into "etl/etl.sql" to help tracking as below;
 ```
 --BEGIN;
 \echo 'BEGIN'
