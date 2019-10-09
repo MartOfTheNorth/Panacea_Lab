@@ -1,6 +1,9 @@
 # Panacea_Lab
 Hello Panacea_Lab!!
 
+## Lab Rules
+- ALL lab work MUST be done in the server. 
+- We are on protected data and data can not take out of the lab server. 
 
 
 ## Machine Learning reseach paper collection
