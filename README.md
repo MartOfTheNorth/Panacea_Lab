@@ -112,27 +112,27 @@ In this project, we will use 9.2.24.
 
 # Part 3 Mapping the MIMIC-III database to the OMOP schema 
 - References:  
-    - MIMIC-OMOP:
-     - Mapping the MIMIC-III database to the OMOP schema.
-     - [https://github.com/MIT-LCP/mimic-omop](https://github.com/MIT-LCP/mimic-omop)
+  - MIMIC-OMOP:
+    - Mapping the MIMIC-III database to the OMOP schema.
+    - [https://github.com/MIT-LCP/mimic-omop](https://github.com/MIT-LCP/mimic-omop)
           
-    - OMOP Common Data Model Version 5.3:
-     - Definition and DDLs for the OMOP Common Data Model (CDM) 
-     - [https://github.com/OHDSI/CommonDataModel/tree/v5.3.0](https://github.com/OHDSI/CommonDataModel/tree/v5.3.0)      
+  - OMOP Common Data Model Version 5.3:
+    - Definition and DDLs for the OMOP Common Data Model (CDM) 
+    - [https://github.com/OHDSI/CommonDataModel/tree/v5.3.0](https://github.com/OHDSI/CommonDataModel/tree/v5.3.0)      
      
-    - mimic-omop/README-run-etl.md:
+   - mimic-omop/README-run-etl.md:
      - Running the ETL on PostgreSQL:
      - [https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md](https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md)  
 
-    - MIT-LCP/mimic-omop:
+   - MIT-LCP/mimic-omop:
      - Build OMOP tables with standard concepts
      - [https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md](https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md)           
  
-     - Download the vocabulary:
+    - Download the vocabulary:
       - ATHENA standardized vocabularies
       - [https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ ](https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ )            
 
-     - Maven (Not required for this lab):
+    - Maven (Not required for this lab):
       - Install Apache Maven on Linux
       - [https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html](https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html)   
 
