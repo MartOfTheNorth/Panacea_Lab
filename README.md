@@ -36,7 +36,7 @@ In this project, we will use 9.2.24.
   - Installing MIMIC-III in a local Postgres database
   - [https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/](https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/)
 
-### Part 2.1 Panacea lab procedure  (6 hours)
+### Part 2.1 Environment procedure  (6 hours)
     - $ psql -U mimicuser -d mimic1
     - => \c mimic1;
     - => set search_path to mimic1;
