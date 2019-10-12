@@ -149,8 +149,9 @@ In this project, we will use 9.2.24.
     - $ git clone git@github.com:MIT-LCP/mimic-omop.git
     - $ git clone https://github.com/MIT-LCP/mimic-omop.git
     - $ cd mimic-omop/
-    -#Clone Common Data Model v5.3
-    - $ git clone https://github.com/OHDSI/CommonDataModel/tree/v5.3.0
+    -#Clone Common Data Model v5.3 (or version master)
+    - $ git clone https://github.com/OHDSI/CommonDataModel/tree/v5.3.0    (unavilable)
+    - $ git clone https://github.com/OHDSI/CommonDataModel.git
     - $ cd CommonDataModel
     - $ git reset --hard 0ac0f4bd56c7372dcd3417461a91f17a6b118901
     - $ cd ..
