@@ -181,11 +181,36 @@ In this project, we will use 9.2.24.
     - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20191006.log    (3 minutes)
 
-## Part 3.5 Create indexes on the vocabulary (?? minutes)
+## Part 3.5 Create indexes on the vocabulary (90 minutes)
     -#Very important to have indexes for vacabulary and MIMIC-III. It will reduce from 5+ days to 1 day of ETL tasks. 
     -#MIMIC-III indexing was done in Part 2.3. This is step is for indexing vocabulary.
-    
+    -#Run only indexes and constraints of Standardized vocabulary.
+    -#Reference to  /mimic-omop/omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
+    - $ cd /home/mart/mimic-omop    
+    - $ vi omop/build-omop/postgresql/OMOP_vocabulary_indexes.txt
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP_vocabulary_indexes.txt"  >>  /home/mart/output20191012.log &
  ```
+$ cat omop/build-omop/postgresql/OMOP_vocabulary_indexes.txt
+/************************
+*************************
+*************************
+*************************
+
+Primary key constraints
+
+*************************
+*************************
+*************************
+************************/
+
+
+
+/************************
+
+Standardized vocabulary
+
+************************/
+
 ALTER TABLE concept ADD CONSTRAINT xpk_concept PRIMARY KEY (concept_id);
 ALTER TABLE vocabulary ADD CONSTRAINT xpk_vocabulary PRIMARY KEY (vocabulary_id);
 ALTER TABLE domain ADD CONSTRAINT xpk_domain PRIMARY KEY (domain_id);
@@ -197,6 +222,25 @@ ALTER TABLE source_to_concept_map ADD CONSTRAINT xpk_source_to_concept_map PRIMA
 ALTER TABLE drug_strength ADD CONSTRAINT xpk_drug_strength PRIMARY KEY (drug_concept_id, ingredient_concept_id);
 ALTER TABLE cohort_definition ADD CONSTRAINT xpk_cohort_definition PRIMARY KEY (cohort_definition_id);
 ALTER TABLE attribute_definition ADD CONSTRAINT xpk_attribute_definition PRIMARY KEY (attribute_definition_id);
+
+/************************
+*************************
+*************************
+*************************
+
+Indices
+
+*************************
+*************************
+*************************
+************************/
+
+/************************
+
+Standardized vocabulary
+
+************************/
+
 CREATE UNIQUE INDEX  idx_concept_concept_id  ON  concept  (concept_id ASC);
 CLUSTER  concept  USING  idx_concept_concept_id ;
 CREATE INDEX idx_concept_code ON concept (concept_code ASC);
@@ -234,12 +278,12 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
  
  ```
 
-## Part 3.6 Create local MIMIC-III concepts (6 minutes)
-    -#Creating local MIMIC-III concepts is needed one time in MIMIC3. Extra omop won't need this step. (3 minutes)
+## Part 3.6 Create local MIMIC-III concepts (30 minutes)
+    -#Creating local MIMIC-III concepts is needed one time in MIMIC3. Extra omop won't need this step. (5 minutes)
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql   
 
-    -#Load the concepts from the CSV files (3 minutes)
+    -#Load the concepts from the CSV files (25 minutes)
     - $ cd /home/mart/mimic-omop    
     - $ vi mimic-omop.cfg 
     - dbname=mimic1
@@ -264,9 +308,11 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
 ```
 --BEGIN;
 \echo 'BEGIN'
+--echo-all;
 \set ON_ERROR_STOP true
 \timing
 \echo 'TRUNCATE'
+
 TRUNCATE TABLE  :OMOP_SCHEMA.care_site CASCADE;
 TRUNCATE TABLE  :OMOP_SCHEMA.cohort_definition CASCADE;
 TRUNCATE TABLE  :OMOP_SCHEMA.cohort_attribute CASCADE;
@@ -316,6 +362,11 @@ TRUNCATE TABLE  :OMOP_SCHEMA.dose_era CASCADE;
 \i etl/StandardizedClinicalDataTables/PROCEDURE_OCCURRENCE/etl.sql
 \echo 'etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql'
 \i etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql
+
+
+\echo '#############################################################'
+
+
 \echo 'etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql'
 \i etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql
 \echo 'etl/StandardizedClinicalDataTables/OBSERVATION/etl.sql'
