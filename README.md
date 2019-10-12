@@ -9,9 +9,13 @@ Hello Panacea_Lab!!
 ## Machine Learning reseach paper collection
 [https://github.com/MartOfTheNorth/Panacea_Lab/wiki/Welcome-to-the-Panacea_Lab-wiki!](https://github.com/MartOfTheNorth/Panacea_Lab/wiki/Welcome-to-the-Panacea_Lab-wiki!)
 
+## Content
+- PostgreSQL       : Part 1
+- MIMIC-III import : Part 2
+- OMOP mapping     : Part 3
+- OHDSI launch     : Part 4
 
-
-## Part 1 - Learning the Postgres
+# Part 1 - Learning Postgres
 Postgres database
 
 [https://www.postgresql.org/](https://www.postgresql.org/)
@@ -26,7 +30,7 @@ Previous versions:
 
 In this project, we will use 9.2.24.
 
-## Part 2 - Create MIMIC-III in a local Postgres database
+# Part 2 - Create MIMIC-III in a local Postgres database
 - Reference:
   - PostgreSQL loading scripts:
   - [https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres](https://github.com/MIT-LCP/mimic-code/tree/master/buildmimic/postgres)
@@ -36,7 +40,7 @@ In this project, we will use 9.2.24.
   - Installing MIMIC-III in a local Postgres database
   - [https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/](https://mimic.physionet.org/tutorials/install-mimic-locally-ubuntu/)
 
-### Part 2.1 Environment procedure  (6 hours)
+## Part 2.1 Lab procedure  (6 hours)
     - $ psql -U mimicuser -d mimic1
     - => \c mimic1;
     - => set search_path to mimic1;
@@ -56,7 +60,7 @@ In this project, we will use 9.2.24.
 
 
 
-### Part 2.2 MIMIC-III is ready (3 minutes)
+## Part 2.2 MIMIC-III database validation (3 minutes)
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1'  -f postgres_checks.sql 
     - => grant select on all tables in schema mimic3 to mart;
     - => grant usage on schema mimic3 to mart;
@@ -102,60 +106,59 @@ In this project, we will use 9.2.24.
 
 [mimicuser@deepml postgres]$ 
 ```
-### Part 2.3 Continue improving MIMIC-III database (30 minutes)
+## Part 2.3 Adding indexes for MIMIC-III database (30 minutes)
     - $ psql 'dbname=mimic1 user=mimicuser options=--search_path=mimic1' -f postgres_add_indexes.sql 
 
 
-## Part 3 Mapping the MIMIC-III database to the OMOP schema 
-   
-  
+# Part 3 Mapping the MIMIC-III database to the OMOP schema 
+- References:  
     - MIMIC-OMOP:
-      - Mapping the MIMIC-III database to the OMOP schema
-      - [https://github.com/MIT-LCP/mimic-omop](https://github.com/MIT-LCP/mimic-omop)
-
-    - OMOP Common Data Model :
-      - Definition and DDLs for the OMOP Common Data Model (CDM) 
-      - [https://github.com/OHDSI/CommonDataModel](https://github.com/OHDSI/CommonDataModel)      
+     - Mapping the MIMIC-III database to the OMOP schema.
+     - [https://github.com/MIT-LCP/mimic-omop](https://github.com/MIT-LCP/mimic-omop)
+          
+    - OMOP Common Data Model Version 5.3:
+     - Definition and DDLs for the OMOP Common Data Model (CDM) 
+     - [https://github.com/OHDSI/CommonDataModel/tree/v5.3.0](https://github.com/OHDSI/CommonDataModel/tree/v5.3.0)      
      
     - mimic-omop/README-run-etl.md:
-      - Running the ETL on PostgreSQL
-      - [https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md](https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md)  
+     - Running the ETL on PostgreSQL:
+     - [https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md](https://github.com/MIT-LCP/mimic-omop/blob/master/README-run-etl.md)  
 
     - MIT-LCP/mimic-omop:
-      - Build OMOP tables with standard concepts
-      - [https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md](https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md)           
+     - Build OMOP tables with standard concepts
+     - [https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md](https://github.com/MIT-LCP/mimic-omop/blob/master/omop/build-omop/postgresql/README.md)           
  
      - Download the vocabulary:
       - ATHENA standardized vocabularies
       - [https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ ](https://www.ohdsi.org/analytic-tools/athena-standardized-vocabularies/ )            
 
-     - Maven:
+     - Maven (Not required for this lab):
       - Install Apache Maven on Linux
       - [https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html](https://www.javahelps.com/2017/10/install-apache-maven-on-linux.html)   
 
 
-
-#### Part 3.1 Environment procedure 
-    -#Set environment (3 minutes)
+## Part 3.1 Set environment (3 minutes)
     - $ postgres -V
     - $ export OMOP_SCHEMA='omop1'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
     - $ sudo apt-get install pgtap
-    -#Build OMOP  (3 minutes)
+    
+## Part 3.2 Pulling OMOP and CDM v5.3 from github  (3 minutes)
     - $ rm -rf mimic-omop
     - $ git clone git@github.com:MIT-LCP/mimic-omop.git
     - $ git clone https://github.com/MIT-LCP/mimic-omop.git
     - $ cd mimic-omop/
-    -#Clone Common Data Model v6.0
-    - $ git clone https://github.com/OHDSI/CommonDataModel.git
+    -#Clone Common Data Model v5.3
+    - $ git clone https://github.com/OHDSI/CommonDataModel/tree/v5.3.0
     - $ cd CommonDataModel
     - $ git reset --hard 0ac0f4bd56c7372dcd3417461a91f17a6b118901
     - $ cd ..
     - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     
-    -#Define PSQL connection   (If new omop2 is needed, repeat here.)
+## Part 3.3 Build omop schema (2 minutes)  (If new omop is needed, repeat here.)
+    -#Set environment
     - $ export OMOP_SCHEMA='omop1'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
@@ -168,14 +171,70 @@ In this project, we will use 9.2.24.
     -#Alter (1 minute)
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/mimic-omop-alter.sql"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_cdm_comments.sql"
-    -# (If new omop2 is building, skip next and go to "Run the ETL".)    
-    -#To import the vocabulary. Copy from /home/large_data/OHDSI_vocabulary-May2019 to /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019 (3 minutes)
+    -# ()    
+    
+## Part 3.4 Import the vocabulary (3 minutes)
+    -#To import the vocabulary. Note: In this lab, instead of compiling new Vocal, copy from /home/large_data/OHDSI_vocabulary-May2019 to /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019 (3 minutes)
     - $ ls -l /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019
     - $ cd /home/mart/mimic-omop
     - $ ln -s /mnt/local/hdd/mimicIII/OHDSI_vocabulary-May2019  extras/athena
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20191006.log    (3 minutes)
+
+## Part 3.5 Create indexes on the vocabulary (?? minutes)
+    -#Very important to have indexes for vacabulary and MIMIC-III. It will reduce from 5+ days to 1 day of ETL tasks. 
+    -#MIMIC-III indexing was done in Part 2.3. This is step is for indexing vocabulary.
     
-    -#Create local MIMIC-III concepts  (3 minutes)
+ ```
+ALTER TABLE concept ADD CONSTRAINT xpk_concept PRIMARY KEY (concept_id);
+ALTER TABLE vocabulary ADD CONSTRAINT xpk_vocabulary PRIMARY KEY (vocabulary_id);
+ALTER TABLE domain ADD CONSTRAINT xpk_domain PRIMARY KEY (domain_id);
+ALTER TABLE concept_class ADD CONSTRAINT xpk_concept_class PRIMARY KEY (concept_class_id);
+ALTER TABLE concept_relationship ADD CONSTRAINT xpk_concept_relationship PRIMARY KEY (concept_id_1,concept_id_2,relationship_id);
+ALTER TABLE relationship ADD CONSTRAINT xpk_relationship PRIMARY KEY (relationship_id);
+ALTER TABLE concept_ancestor ADD CONSTRAINT xpk_concept_ancestor PRIMARY KEY (ancestor_concept_id,descendant_concept_id);
+ALTER TABLE source_to_concept_map ADD CONSTRAINT xpk_source_to_concept_map PRIMARY KEY (source_vocabulary_id,target_concept_id,source_code,valid_end_date);
+ALTER TABLE drug_strength ADD CONSTRAINT xpk_drug_strength PRIMARY KEY (drug_concept_id, ingredient_concept_id);
+ALTER TABLE cohort_definition ADD CONSTRAINT xpk_cohort_definition PRIMARY KEY (cohort_definition_id);
+ALTER TABLE attribute_definition ADD CONSTRAINT xpk_attribute_definition PRIMARY KEY (attribute_definition_id);
+CREATE UNIQUE INDEX  idx_concept_concept_id  ON  concept  (concept_id ASC);
+CLUSTER  concept  USING  idx_concept_concept_id ;
+CREATE INDEX idx_concept_code ON concept (concept_code ASC);
+CREATE INDEX idx_concept_vocabluary_id ON concept (vocabulary_id ASC);
+CREATE INDEX idx_concept_domain_id ON concept (domain_id ASC);
+CREATE INDEX idx_concept_class_id ON concept (concept_class_id ASC);
+CREATE UNIQUE INDEX  idx_vocabulary_vocabulary_id  ON  vocabulary  (vocabulary_id ASC);
+CLUSTER  vocabulary  USING  idx_vocabulary_vocabulary_id ;
+CREATE UNIQUE INDEX  idx_domain_domain_id  ON  domain  (domain_id ASC);
+CLUSTER  domain  USING  idx_domain_domain_id ;
+CREATE UNIQUE INDEX  idx_concept_class_class_id  ON  concept_class  (concept_class_id ASC);
+CLUSTER  concept_class  USING  idx_concept_class_class_id ;
+CREATE INDEX idx_concept_relationship_id_1 ON concept_relationship (concept_id_1 ASC); 
+CREATE INDEX idx_concept_relationship_id_2 ON concept_relationship (concept_id_2 ASC); 
+CREATE INDEX idx_concept_relationship_id_3 ON concept_relationship (relationship_id ASC); 
+CREATE UNIQUE INDEX  idx_relationship_rel_id  ON  relationship  (relationship_id ASC);
+CLUSTER  relationship  USING  idx_relationship_rel_id ;
+CREATE INDEX  idx_concept_synonym_id  ON  concept_synonym  (concept_id ASC);
+CLUSTER  concept_synonym  USING  idx_concept_synonym_id ;
+CREATE INDEX  idx_concept_ancestor_id_1  ON  concept_ancestor  (ancestor_concept_id ASC);
+CLUSTER  concept_ancestor  USING  idx_concept_ancestor_id_1 ;
+CREATE INDEX idx_concept_ancestor_id_2 ON concept_ancestor (descendant_concept_id ASC);
+CREATE INDEX  idx_source_to_concept_map_id_3  ON  source_to_concept_map  (target_concept_id ASC);
+CLUSTER  source_to_concept_map  USING  idx_source_to_concept_map_id_3 ;
+CREATE INDEX idx_source_to_concept_map_id_1 ON source_to_concept_map (source_vocabulary_id ASC);
+CREATE INDEX idx_source_to_concept_map_id_2 ON source_to_concept_map (target_vocabulary_id ASC);
+CREATE INDEX idx_source_to_concept_map_code ON source_to_concept_map (source_code ASC);
+CREATE INDEX  idx_drug_strength_id_1  ON  drug_strength  (drug_concept_id ASC);
+CLUSTER  drug_strength  USING  idx_drug_strength_id_1 ;
+CREATE INDEX idx_drug_strength_id_2 ON drug_strength (ingredient_concept_id ASC);
+CREATE INDEX  idx_cohort_definition_id  ON  cohort_definition  (cohort_definition_id ASC);
+CLUSTER  cohort_definition  USING  idx_cohort_definition_id ;
+CREATE INDEX  idx_attribute_definition_id  ON  attribute_definition  (attribute_definition_id ASC);
+CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
+ 
+ ```
+
+## Part 3.6 Create local MIMIC-III concepts (6 minutes)
+    -#Creating local MIMIC-III concepts is needed one time in MIMIC3. Extra omop won't need this step. (3 minutes)
     - $ cd /home/mart/mimic-omop
     - $ psql "$MIMIC" -f mimic/build-mimic/postgres_create_mimic_id.sql   
 
@@ -189,12 +248,14 @@ In this project, we will use 9.2.24.
     - > quit("yes")
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
     
-    -#Run the ETL  (12 hours)
+## Part 3.7 Run the ETL  (12 hours)
+    -#Set environment
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
     - $ export OMOP_SCHEMA='omop'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
+    -#Run ETL
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql" >>  /home/mart/output20191006.log     
 
@@ -283,7 +344,7 @@ COMMIT;
     - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt" >> output20190930omopindex.log  &
     - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt" >> output20190930cdmcon.log  &
 
-#### Part 3.2 Validation - MIMIC-III database to the OMOP schema   
+### Part 3.8 Validation - MIMIC-III database to the OMOP schema   
     -#Check number of row of all tables in schema
 ```
 select table_schema, 
