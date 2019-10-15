@@ -293,7 +293,7 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
     - > quit("yes")
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
     
-## Part 3.7 Run the ETL  (12 hours)
+## Part 3.7 Run the ETL  (5 days??)
     -#Set environment
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
@@ -397,7 +397,7 @@ COMMIT;
     - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt" >> output20190930cdmcon.log  &
 
 ### Part 3.8 Validation - MIMIC-III database to the OMOP schema   
-    -#Check number of row of all tables in schema
+    -#Check number of row of all tables in schema (2 minutes)
 ```
 select table_schema, 
        table_name, 
