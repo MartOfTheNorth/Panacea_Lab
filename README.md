@@ -393,8 +393,11 @@ COMMIT;
 
     -#(Optional) Indexes may slow down importing of data - so you may want to only build these after running the full ETL.
     - $ cd /home/mart/mimic-omop    
+    -## Refer to Part 3.9
     - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt" >> output20190930omopindex.log  &
+    -## Refer to Part 3.10
     - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt" >> output20190930cdmcon.log  &
+
 
 ### Part 3.8 Validation - MIMIC-III database to the OMOP schema   
     -#Check number of row of all tables in schema (2 minutes)
