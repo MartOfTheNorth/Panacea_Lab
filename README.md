@@ -182,7 +182,7 @@ In this project, we will use 9.2.24.
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/omop_vocab_load.sql"  >>  /home/mart/output20191006.log    (3 minutes)
 
 ## Part 3.5 Create indexes on the vocabulary (90 minutes)
-    -#Very important to have indexes for vacabulary and MIMIC-III. It will reduce from 5+ days to 1 day of ETL tasks. 
+    -#Very important to have indexes for vacabulary and MIMIC-III. It will reduce from weeks to 5 days of ETL tasks. 
     -#MIMIC-III indexing was done in Part 2.3. This is step is for indexing vocabulary.
     -#Run only indexes and constraints of Standardized vocabulary.
     -#Reference to  /mimic-omop/omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
@@ -293,7 +293,7 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
     - > quit("yes")
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
     
-## Part 3.7 Run the ETL  (5 days??)
+## Part 3.7 Run the ETL  (5 days)
     -#Set environment
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
@@ -363,12 +363,12 @@ TRUNCATE TABLE  :OMOP_SCHEMA.dose_era CASCADE;
 \echo 'etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql'
 \i etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql
 
-
-\echo '#############################################################'
-
+\echo '#####################DRUG_EXPOSURE = 3 days##########################'
 
 \echo 'etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql'
 \i etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql
+
+\echo '#############################################################'
 \echo 'etl/StandardizedClinicalDataTables/OBSERVATION/etl.sql'
 \i etl/StandardizedClinicalDataTables/OBSERVATION/etl.sql
 \echo 'etl/StandardizedClinicalDataTables/MEASUREMENT/etl.sql'
@@ -502,7 +502,7 @@ order by table_schema, table_name , row_count;
  omop               | cohort                                      |         0
  omop               | cohort_attribute                            |    228382
  omop               | cohort_definition                           |         0
- omop               | concept                                     |   6046495
+ omop               | concept                                     |   6045915
  omop               | concept_ancestor                            |  61981870
  omop               | concept_class                               |       358
  omop               | concept_relationship                        |  40742164
@@ -513,17 +513,17 @@ order by table_schema, table_name , row_count;
  omop               | death                                       |     14849
  omop               | device_exposure                             |         0
  omop               | domain                                      |        46
- omop               | dose_era                                    |         0
+ omop               | dose_era                                    |   5131795
  omop               | drug_era                                    |         0
- omop               | drug_exposure                               |   7406816
+ omop               | drug_exposure                               |  24934751
  omop               | drug_strength                               |   2624545
- omop               | fact_relationship                           |   8601087
+ omop               | fact_relationship                           | 136935388
  omop               | location                                    |         0
- omop               | measurement                                 |         0
+ omop               | measurement                                 | 365181104
  omop               | metadata                                    |         0
  omop               | note                                        |   2082294
  omop               | note_nlp                                    |         0
- omop               | observation                                 |   4226027
+ omop               | observation                                 |   6721040
  omop               | observation_period                          |     58976
  omop               | payer_plan_period                           |         0
  omop               | person                                      |     46520
@@ -531,10 +531,27 @@ order by table_schema, table_name , row_count;
  omop               | provider                                    |      7567
  omop               | relationship                                |       488
  omop               | source_to_concept_map                       |         0
- omop               | specimen                                    |         0
+ omop               | specimen                                    |  39874171
  omop               | visit_detail                                |    271812
  omop               | visit_detail_assign                         |    198469
  omop               | visit_occurrence                            |     58976
  omop               | vocabulary                                  |        79
 
+
 ```
+
+## Part 3.9 Create indexes (?? minutes)
+
+    -#MIMIC-III indexing was done in Part 2.3. Vocabulary indexing was done in Part 3.5.
+    -#Run the rest of indexes and constraints.
+    -#Reference to  /mimic-omop/omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt"
+    - $ cd /home/mart/mimic-omop    
+    - $ vi  omop/build-omop/postgresql/OMOP_CDM_postgresql_indexes_no_vocabulary.txt
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP_CDM_postgresql_indexes_no_vocabulary.txt"  >>  /home/mart/output20191020.log &
+    
+
+## Part 3.10 Create Foreign key constraints (?? minutes)
+
+    - $ cd /home/mart/mimic-omop    
+    - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"  >>  /home/mart/output20191020a.log &
+    
