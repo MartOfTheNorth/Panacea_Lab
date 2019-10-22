@@ -9,11 +9,11 @@ Hello Panacea_Lab!!
 ## Machine Learning reseach paper collection
 [https://github.com/MartOfTheNorth/Panacea_Lab/wiki/Welcome-to-the-Panacea_Lab-wiki!](https://github.com/MartOfTheNorth/Panacea_Lab/wiki/Welcome-to-the-Panacea_Lab-wiki!)
 
-## Content
-- PostgreSQL       : Part 1
-- MIMIC-III import : Part 2
-- OMOP mapping     : Part 3
-- OHDSI launch     : Part 4
+## Contents
+- Part 1 : PostgreSQL       
+- Part 2 : MIMIC-III import 
+- Part 3 : OMOP mapping     
+- Part 4 : OHDSI - APHRODITE    
 
 # Part 1 - Learning Postgres
 Postgres database
@@ -560,4 +560,14 @@ order by table_schema, table_name , row_count;
 
     - $ cd /home/mart/mimic-omop    
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"  >>  /home/mart/output20191020a.log &
-    
+
+
+
+# Part 4 - OHDSI - APHRODITE 
+- Reference:
+  - Banda, Juan M., Yoni Halpern, David Sontag, and Nigam H. Shah. 2017. “Electronic Phenotyping with APHRODITE and the Observational Health Sciences and Informatics (OHDSI) Data Network.” AMIA Joint Summits on Translational Science Proceedings. AMIA Joint Summits on Translational Science 2017 (July): 48–57.
+  - [http://europepmc.org/abstract/MED/28815104](http://europepmc.org/abstract/MED/28815104s)
+
+  - Github: Automated PHenotype Routine for Observational Definition, Identification, Training and Evaluation (APHRODITE)
+  - [https://github.com/OHDSI/Aphrodite](https://github.com/OHDSI/Aphrodite)  
+## Part 3.10 Create Foreign key constraints 
