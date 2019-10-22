@@ -564,7 +564,7 @@ order by table_schema, table_name , row_count;
 
 
 # Part 4 - OHDSI - APHRODITE 
-- Reference:
+- References:
   - Banda, Juan M., Yoni Halpern, David Sontag, and Nigam H. Shah. 2017. “Electronic Phenotyping with APHRODITE and the Observational Health Sciences and Informatics (OHDSI) Data Network.” AMIA Joint Summits on Translational Science Proceedings. AMIA Joint Summits on Translational Science 2017 (July): 48–57.
    - [http://europepmc.org/abstract/MED/28815104](http://europepmc.org/abstract/MED/28815104s)
 
