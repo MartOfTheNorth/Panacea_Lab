@@ -293,7 +293,7 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
     - > quit("yes")
     - $ Rscript etl/ConceptTables/loadTables.R mimiciii
     
-## Part 3.7 Run the ETL  (5 days)
+## Part 3.7 Run the ETL  (4 days)
     -#Set environment
     - $ cd /home/mart/mimic-omop       
     - $ set search_path to mimic1;
@@ -363,16 +363,19 @@ TRUNCATE TABLE  :OMOP_SCHEMA.dose_era CASCADE;
 \echo 'etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql'
 \i etl/StandardizedClinicalDataTables/CONDITION_OCCURRENCE/etl.sql
 
-\echo '#####################DRUG_EXPOSURE = 3 days##########################'
-
+\echo '#####################DRUG_EXPOSURE = 60 hours##########################'
 \echo 'etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql'
 \i etl/StandardizedClinicalDataTables/DRUG_EXPOSURE/etl.sql
-
 \echo '#############################################################'
+
 \echo 'etl/StandardizedClinicalDataTables/OBSERVATION/etl.sql'
 \i etl/StandardizedClinicalDataTables/OBSERVATION/etl.sql
+
+\echo '#####################MEASUREMENT/ = 6 hours##########################'
 \echo 'etl/StandardizedClinicalDataTables/MEASUREMENT/etl.sql'
 \i etl/StandardizedClinicalDataTables/MEASUREMENT/etl.sql
+\echo '#############################################################'
+
 \echo 'etl/StandardizedClinicalDataTables/SPECIMEN/etl.sql'
 \i etl/StandardizedClinicalDataTables/SPECIMEN/etl.sql
 \echo 'tl/StandardizedDerivedElements/DOSE_ERA/etl.sql'
@@ -543,7 +546,7 @@ order by table_schema, table_name , row_count;
 
 ```
 
-## Part 3.9 Create indexes (?? minutes)
+## Part 3.9 Create indexes (90 minutes)
 
     -#MIMIC-III indexing was done in Part 2.3. Vocabulary indexing was done in Part 3.5.
     -#Run the rest of indexes and constraints.
@@ -553,7 +556,7 @@ order by table_schema, table_name , row_count;
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP_CDM_postgresql_indexes_no_vocabulary.txt"  >>  /home/mart/output20191020.log &
     
 
-## Part 3.10 Create Foreign key constraints (?? minutes)
+## Part 3.10 Create Foreign key constraints (20 minutes)
 
     - $ cd /home/mart/mimic-omop    
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"  >>  /home/mart/output20191020a.log &
