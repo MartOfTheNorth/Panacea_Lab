@@ -566,8 +566,16 @@ order by table_schema, table_name , row_count;
 # Part 4 - OHDSI - APHRODITE 
 - Reference:
   - Banda, Juan M., Yoni Halpern, David Sontag, and Nigam H. Shah. 2017. “Electronic Phenotyping with APHRODITE and the Observational Health Sciences and Informatics (OHDSI) Data Network.” AMIA Joint Summits on Translational Science Proceedings. AMIA Joint Summits on Translational Science 2017 (July): 48–57.
-  - [http://europepmc.org/abstract/MED/28815104](http://europepmc.org/abstract/MED/28815104s)
+   - [http://europepmc.org/abstract/MED/28815104](http://europepmc.org/abstract/MED/28815104s)
 
   - Github: Automated PHenotype Routine for Observational Definition, Identification, Training and Evaluation (APHRODITE)
-  - [https://github.com/OHDSI/Aphrodite](https://github.com/OHDSI/Aphrodite)  
-## Part 3.10 Create Foreign key constraints 
+   - [https://github.com/OHDSI/Aphrodite](https://github.com/OHDSI/Aphrodite)  
+  
+## Part 4.1 Current state
+- TDB
+## Part 4.2 Methodology
+- TDB
+## Part 4.3 Implementation
+- TDB
+## Part 4.4 Evaluation and discussion
+- TDB
