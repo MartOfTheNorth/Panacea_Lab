@@ -142,7 +142,7 @@ In this project, we will use 9.2.24.
     - $ export OMOP_SCHEMA='omop1'
     - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
     - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
-    - $ sudo apt-get install pgtap
+    - (If pgtap is used, $ sudo apt-get install pgtap)
     
 ## Part 3.2 Pulling OMOP and CDM v5.3 from github  (3 minutes)
     - $ rm -rf mimic-omop
@@ -153,9 +153,11 @@ In this project, we will use 9.2.24.
     - $ git clone https://github.com/OHDSI/CommonDataModel/tree/v5.3.0    (unavilable)
     - $ git clone https://github.com/OHDSI/CommonDataModel.git
     - $ cd CommonDataModel
+    -#We reset the sub-repository to a specific commit to ensure that the DDL copied is always the same.
     - $ git reset --hard 0ac0f4bd56c7372dcd3417461a91f17a6b118901
     - $ cd ..
     - $ cp CommonDataModel/PostgreSQL/*.txt omop/build-omop/postgresql/
+    -#Modify the DDL
     - $ sed -i 's/^CREATE TABLE \([a-z_]*\)/CREATE UNLOGGED TABLE \1/' "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
     
 ## Part 3.3 Build omop schema (2 minutes)  (If new omop is needed, repeat here.)
@@ -390,17 +392,11 @@ COMMIT;
 \echo 'The END.'
 ```
 
-    -#Check the ETL has run properly
+    -#(If we use pgtap, check the ETL has run properly as below. **We don't use pgtap in this lab.**)
     - psql "$MIMIC" -c "CREATE EXTENSION pgtap;"
     - psql "$MIMIC" -f "etl/check_etl.sql"
 
-    -#(Optional) Indexes may slow down importing of data - so you may want to only build these after running the full ETL.
-    - $ cd /home/mart/mimic-omop    
-    -## Refer to Part 3.9
-    - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql indexes.txt" >> output20190930omopindex.log  &
-    -## Refer to Part 3.10
-    - $ nohup psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt" >> output20190930cdmcon.log  &
-
+Modify the DDL a bit
 
 ### Part 3.8 Validation - MIMIC-III database to the OMOP schema   
     -#Check number of row of all tables in schema (2 minutes)
@@ -560,7 +556,32 @@ order by table_schema, table_name , row_count;
 
     - $ cd /home/mart/mimic-omop    
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"  >>  /home/mart/output20191020a.log &
+    - ## There are errors at this script.## 
 
+'''
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:66: ERROR:  insert or update on table "concept" violates foreign key constraint "fpk_concept_domain"
+DETAIL:  Key (domain_id)=(Visit Detail) is not present in table "domain".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:68: ERROR:  insert or update on table "concept" violates foreign key constraint "fpk_concept_class"
+DETAIL:  Key (concept_class_id)=() is not present in table "concept_class".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:70: ERROR:  insert or update on table "concept" violates foreign key constraint "fpk_concept_vocabulary"
+DETAIL:  Key (vocabulary_id)=() is not present in table "vocabulary".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:157: ERROR:  insert or update on table "specimen" violates foreign key constraint "fpk_specimen_type_concept"
+DETAIL:  Key (specimen_type_concept_id)=(581378) is not present in table "concept".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:258: ERROR:  insert or update on table "condition_occurrence" violates foreign key constraint "fpk_condition_concept"
+DETAIL:  Key (condition_concept_id)=(223626) is not present in table "concept".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:391: ERROR:  insert or update on table "cohort_attribute" violates foreign key constraint "fpk_ca_cohort_definition"
+DETAIL:  Key (cohort_definition_id)=(0) is not present in table "cohort_definition".
+
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:393: ERROR:  insert or update on table "cohort_attribute" violates foreign key constraint "fpk_ca_attribute_definition"
+DETAIL:  Key (attribute_definition_id)=(2) is not present in table "attribute_definition".
+psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:430: NOTICE:  ALTER TABLE / ADD UNIQUE will create implicit index "uq_concept_synonym" for table "concept_synonym"
+
+'''
 
 
 # Part 4 - OHDSI - APHRODITE 
