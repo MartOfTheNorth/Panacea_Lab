@@ -139,9 +139,9 @@ In this project, we will use 9.2.24.
 
 ## Part 3.1 Set environment (3 minutes)
     - $ postgres -V
-    - $ export OMOP_SCHEMA='omop1'
-    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
-    - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'    
+    - $ export OMOP_SCHEMA='omop'
+    - $ export OMOP='host=localhost dbname=mimic3 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic3 user=mimicuser options=--search_path=mimic3'    
     - (If pgtap is used, $ sudo apt-get install pgtap)
     
 ## Part 3.2 Pulling OMOP and CDM v5.3 from github  (3 minutes)
@@ -162,12 +162,12 @@ In this project, we will use 9.2.24.
     
 ## Part 3.3 Build omop schema (2 minutes)  (If new omop is needed, repeat here.)
     -#Set environment
-    - $ export OMOP_SCHEMA='omop1'
-    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
-    - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
+    - $ export OMOP_SCHEMA='omop'
+    - $ export OMOP='host=localhost dbname=mimic3 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic3 user=mimicuser options=--search_path=mimic3'
     -#Build omop schema (1 minute)
     - $ cd /home/mart/mimic-omop
-    - $ set search_path to mimic1;
+    - $ set search_path to mimic3;
     - $ psql "$OMOP" -c "DROP SCHEMA IF EXISTS $OMOP_SCHEMA CASCADE;"
     - $ psql "$OMOP" -c "CREATE SCHEMA $OMOP_SCHEMA;"
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql ddl.txt"
@@ -298,10 +298,10 @@ CLUSTER  attribute_definition  USING  idx_attribute_definition_id ;
 ## Part 3.7 Run the ETL  (4 days)
     -#Set environment
     - $ cd /home/mart/mimic-omop       
-    - $ set search_path to mimic1;
+    - $ set search_path to mimic3;
     - $ export OMOP_SCHEMA='omop'
-    - $ export OMOP='host=localhost dbname=mimic1 user=mimicuser options=--search_path='$OMOP_SCHEMA
-    - $ export MIMIC='host=localhost dbname=mimic1 user=mimicuser options=--search_path=mimic1'
+    - $ export OMOP='host=localhost dbname=mimic3 user=mimicuser options=--search_path='$OMOP_SCHEMA
+    - $ export MIMIC='host=localhost dbname=mimic3 user=mimicuser options=--search_path=mimic3'
     -#Run ETL
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql"
     - $ psql "$MIMIC" --set=OMOP_SCHEMA="$OMOP_SCHEMA" -f "etl/etl.sql" >>  /home/mart/output20191006.log     
@@ -599,7 +599,7 @@ psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:430:
 -#Install devtools  (20 minutes)
 - > install.packages("devtools")
 
--#Option: Install devtools  (5 minutes)
+-#Option: Install dplyr  (5 minutes)
 - > install.packages("dplyr")
 
 -#To enable devtools including "install_github"  (1 second)
@@ -666,6 +666,14 @@ Installing 31 packages: data.table, DatabaseConnector, SqlRender, caret, pROC, k
 ** testing if installed package can be loaded
 * DONE (Aphrodite)
 >  
+'''
+
+-#Loading  Aphrodite  (1 second)
+> library(Aphrodite)
+'''
+Loading required package: data.table
+data.table 1.12.6 using 40 threads (see ?getDTthreads).  Latest news: r-datatable.com
+> 
 '''
 
 ## Part 4.2 Methodology
