@@ -669,12 +669,78 @@ Installing 31 packages: data.table, DatabaseConnector, SqlRender, caret, pROC, k
 '''
 
 -#Loading  Aphrodite  (1 second)
-> library(Aphrodite)
+- > library(Aphrodite)
 '''
 Loading required package: data.table
 data.table 1.12.6 using 40 threads (see ?getDTthreads).  Latest news: r-datatable.com
 > 
 '''
+
+-#To update the /R/settings.R file with CDM connection information and Phenotyping settings.
+-#Copy /R/settings.R into /home/mart/APHRODITE/Aphrodite_outputs/settings.R
+- $ vi settings.R
+
+'''
+cdmSchema = "omop"
+resultsSchema = "aphrodite_results"
+sourceName = "/home/mart/APHRODITE/Aphrodite_outputs"
+dbms = "postgresql" #Should be "sql server", "oracle", "postgresql" or "redshift"
+
+user <- "mimicuser"
+pw <- "userpassword"
+server <- "server.gsu.edu/mimic3"
+port <- "5432"
+'''
+
+-#To run sample code
+-##Copy /samples/complete_example.R into /home/mart/APHRODITE/Aphrodite_outputs/complete_example.R
+-##Edit the complete_example.R
+
+
+'''
+folder = "/home/mart/APHRODITE/Aphrodite_outputs" 
+
+source("settings.R")  
+
+connectionDetails <- createConnectionDetails(dbms=dbms, server=server, user=user, password=pw, schema=cdmSchema, port=port)
+conn <- connect(connectionDetails)
+'''
+
+
+-#To run sample code
+-##Uploading libraries
+
+'''
+> library(Aphrodite)
+> library(SqlRender)
+> library(plyr)
+> library(caret)
+> library(pROC)
+> library(data.table)
+> library(DatabaseConnector)
+> library(ggplot2)
+'''
+
+
+-#To run sample code
+-##Test the database connection in R promt
+'''
+> folder = "/home/mart/APHRODITE/Aphrodite_outputs"
+> setwd(folder)
+> source("settings.R") 
+> connectionDetails <- createConnectionDetails(dbms=dbms, server=server, user=user, password=pw, schema=cdmSchema, port=port)
+> conn <- connect(connectionDetails)
+Connecting using PostgreSQL driver
+'''
+
+-#Error
+
+'''
+Error in rJava::.jcall(jdbcDriver, "Ljava/sql/Connection;", "connect",  : 
+  org.postgresql.util.PSQLException: FATAL: no pg_hba.conf entry for host "131.96.155.246", user "mart", database "mimic3", SSL off
+> 
+'''
+
 
 ## Part 4.2 Methodology
 - TDB
