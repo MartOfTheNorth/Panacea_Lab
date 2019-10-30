@@ -593,7 +593,81 @@ psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:430:
    - [https://github.com/OHDSI/Aphrodite](https://github.com/OHDSI/Aphrodite)  
   
 ## Part 4.1 Current state
-- TDB
+-#Install Aphrodite from Github
+- $R
+
+-#Install devtools  (20 minutes)
+- > install.packages("devtools")
+
+-#Option: Install devtools  (5 minutes)
+- > install.packages("dplyr")
+
+-#To enable devtools including "install_github"  (1 second)
+- > library(devtools)
+
+-#Install Aphrodite with install_github. Select option "3:None" (5 minutes)
+- > install_github("ohdsi/Aphrodite")
+
+'''
+Downloading GitHub repo ohdsi/Aphrodite@master
+These packages have more recent versions available.
+Which would you like to update?
+
+ 1: All                                
+ 2: CRAN packages only                 
+ 3: None                               
+ 4: mime      (0.6    -> 0.7   ) [CRAN]
+ 5: digest    (0.6.21 -> 0.6.22) [CRAN]
+ 6: rlang     (0.4.0  -> 0.4.1 ) [CRAN]
+ 7: Rcpp      (1.0.1  -> 1.0.2 ) [CRAN]
+ 8: httr      (1.4.0  -> 1.4.1 ) [CRAN]
+ 9: tibble    (2.1.1  -> 2.1.3 ) [CRAN]
+10: pillar    (1.3.1  -> 1.4.2 ) [CRAN]
+11: pkgconfig (2.0.2  -> 2.0.3 ) [CRAN]
+12: backports (1.1.4  -> 1.1.5 ) [CRAN]
+13: purrr     (0.3.2  -> 0.3.3 ) [CRAN]
+14: curl      (3.3    -> 4.2   ) [CRAN]
+15: openssl   (1.3    -> 1.4.1 ) [CRAN]
+16: sys       (3.2    -> 3.3   ) [CRAN]
+
+Enter one or more numbers, or an empty line to skip updates:
+3
+Installing 31 packages: data.table, DatabaseConnector, SqlRender, caret, pROC, knitr, DatabaseConnectorJars, rJava, ff, ffbase, urltools, foreach, ModelMetrics, recipes, highr, markdown, xfun, fastmatch, triebeard, iterators, generics, gower, ipred, lubridate, tidyr, timeDate, prodlim, lifecycle, lava, numDeriv, SQUAREM
+...
+...
+* installing *source* package â€˜Aphroditeâ€™ ...
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+  converting help for package â€˜Aphroditeâ€™
+    finding HTML links ... done
+    buildFeatureVector                      html  
+    buildKeywordList                        html  
+    buildModel                              html  
+    combineFeatureVectors                   html  
+    conceptDecoder                          html  
+    convertFeatVecPortion                   html  
+    executeSQL                              html  
+    f_score_calc                            html  
+    getAnchors                              html  
+    getNormalizationTerm                    html  
+    getPatientCohort_w_Anchors              html  
+    getPatientData                          html  
+    getPatientDataCases                     html  
+    getPatientDataFromStartDate             html  
+    getPatientDataStartEnd                  html  
+    getdPatientCohort                       html  
+    manipulateSqlPull                       html  
+    plotFeatWeightings                      html  
+    runGUI                                  html  
+** building package indices
+** testing if installed package can be loaded
+* DONE (Aphrodite)
+>  
+'''
+
 ## Part 4.2 Methodology
 - TDB
 ## Part 4.3 Implementation
