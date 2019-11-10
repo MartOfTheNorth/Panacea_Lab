@@ -698,7 +698,7 @@ port <- "5432"
 
 
 ```
-folder = "/home/mart/APHRODITE/Aphrodite_outputs" 
+folder = "/home/mart/APHRODITE/Aphrodite_outputs/" 
 
 source("settings.R")  
 
@@ -725,7 +725,7 @@ conn <- connect(connectionDetails)
 -#To run sample code
 -##Test the database connection in R promt
 ```
-> folder = "/home/mart/APHRODITE/Aphrodite_outputs"
+> folder = "/home/mart/APHRODITE/Aphrodite_outputs/"
 > setwd(folder)
 > source("settings.R") 
 > connectionDetails <- createConnectionDetails(dbms=dbms, server=server, user=user, password=pw, schema=cdmSchema, port=port)
@@ -741,6 +741,24 @@ Error in rJava::.jcall(jdbcDriver, "Ljava/sql/Connection;", "connect",  :
   org.postgresql.util.PSQLException: FATAL: no pg_hba.conf entry for host "10.1.1.1", user "mimicuser", database "mimic3", SSL off
 > 
 ```
+
+
+##################################################################################
+### STEP 1 - Generate Keywords                                                 ###
+##################################################################################
+#Ouput: Two files. 20 rows each file.
+keywordlistAF.tsv
+ignorelistAF.tsv
+
+```
+> wordLists <- buildKeywordList(conn, aphrodite_concept_name, cdmSchema, dbms)
+
+> write.table(wordLists$keywordlist_ALL, file=paste('keywordlistAF.tsv',sep=''), quote=FALSE, sep='\t', row.names = FALSE, col.names = FALSE)
+> write.table(wordLists$ignorelist_ALL, file=paste('ignorelistAF.tsv',sep=''), quote=FALSE, sep='\t', row.names = FALSE, col.names = FALSE)
+
+> message(paste("Keywords.tsv and ignore.tsv have been successfully created for ",aphrodite_concept_name,sep = ""))
+```
+
 
 
 ## Part 4.2 Methodology
