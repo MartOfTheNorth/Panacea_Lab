@@ -743,12 +743,13 @@ Error in rJava::.jcall(jdbcDriver, "Ljava/sql/Connection;", "connect",  :
 ```
 
 
-##################################################################################
+
+## Part 4.1.1
 ### STEP 1 - Generate Keywords                                                 ###
-##################################################################################
-#Ouput: Two files. 20 rows each file.
-keywordlistAF.tsv
-ignorelistAF.tsv
+- #Ouput: Two files. 20 rows each file.
+- keywordlistAF.tsv
+- ignorelistAF.tsv
+
 
 ```
 > wordLists <- buildKeywordList(conn, aphrodite_concept_name, cdmSchema, dbms)
@@ -759,6 +760,117 @@ ignorelistAF.tsv
 > message(paste("Keywords.tsv and ignore.tsv have been successfully created for ",aphrodite_concept_name,sep = ""))
 ```
 
+## Part 4.1.2
+### NOTICE: Do not forget to edit the keywords and ignore files                ###
+- #Note: Validate those two files and reload keyword list after editing.
+
+```
+> keywordList_FF <- read.table('keywordlistAF.tsv', sep="\t", header=FALSE)
+> ignoreList_FF <- read.table('ignorelistAF.tsv', sep="\t", header=FALSE)
+```
+
+## Part 4.1.3
+### STEP 2 - Look for cases and controls in the patient data                   ###
+- #Ouput: Two files. 
+- casesAF.tsv
+- controlsAF.tsv
+
+```
+casesANDcontrolspatient_ids_df<- getdPatientCohort(conn, dbms,as.character(keywordList_FF$V3),as.character(ignoreList_FF$V3), cdmSchema,nCases,nControls)
+> if (nCases > nrow(casesANDcontrolspatient_ids_df[[1]])) {
+  message("Not enough patients to get the number of cases specified")
+  stop
+} else {
+  if (nCases > nrow(casesANDcontrolspatient_ids_df[[2]])) {
+    message("Not enough patients to get the number of controls specified")
+    stop
+  }
+}
+
+> cases<- casesANDcontrolspatient_ids_df[[1]][sample(nrow(casesANDcontrolspatient_ids_df[[1]]), nCases), ]
+> controls<- casesANDcontrolspatient_ids_df[[2]][sample(nrow(casesANDcontrolspatient_ids_df[[2]]), nControls), ]
+
+> if (saveALLresults) {
+  write.table(cases, file=paste('casesAF.tsv',sep=''), quote=FALSE, sep='\t', row.names = FALSE, col.names = FALSE)
+  write.table(controls, file=paste('controlsAF.tsv',sep=''), quote=FALSE, sep='\t', row.names = FALSE, col.names = FALSE)
+}
+```
+
+## Part 4.1.4
+### Get cases data                                                             ###
+- IF we want to restrict domain id's we use
+- dataFcases <- getPatientData(conn, dbms, cases, as.character(ignoreList_FF$V3), flag, cdmSchema, flag$remove_domains[1])
+- For the example this will be Unit that we are removing
+- #Output: 1 file
+- MI-RAW_FV_CASES_20.Rda
+
+```
+> dataFcases <- getPatientData(conn, dbms, cases, as.character(ignoreList_FF$V3), flag, cdmSchema)
+> if (saveALLresults) {
+  save(dataFcases,file=paste(studyName,"-RAW_FV_CASES_",as.character(nCases),".Rda",sep=''))
+}
+```
+
+
+## Part 4.1.5
+### Get control data                                                           ###
+- #Output: 1 file
+- MI-RAW_FV_CONTROLS_20.Rda
+
+```
+>dataFcontrols <- getPatientData(conn, dbms, controls, as.character(ignoreList_FF$V3), flag, cdmSchema)
+>if (saveALLresults) {
+  save(dataFcontrols,file=paste(studyName,"-RAW_FV_CONTROLS_",as.character(nControls),".Rda",sep=''))
+}
+```
+
+## Part 4.1.6
+### Create feature vector                                                      ###
+- #Output: 1 file
+- MI-FULL_FV_CASES_20_CONTROLS_20.Rda
+```
+> fv_all <- buildFeatureVector(flag, dataFcases,dataFcontrols)
+> fv_full_data <- combineFeatureVectors(flag, data.frame(cases), controls, fv_all, outcomeName)
+
+> if (saveALLresults) {
+  save(fv_all,file=paste(studyName,"-FULL_FV_CASES_",as.character(nCases),"_CONTROLS_",as.character(nControls),".Rda",sep=''))
+}
+
+> charCols <- c("Class_labels", "pid")
+> predictorsNames <- colnames(fv_full_data)[!colnames(fv_full_data) %in% charCols]
+```
+
+## Part 4.1.7
+#### Remove for demo
+- #check that all data is real
+
+```
+> max(fv_full_data[,predictorsNames])
+> fullFeatDist <- as.numeric(unlist(fv_full_data[,predictorsNames]))
+```
+
+
+## Part 4.1.8
+### STEP 3 - Create model                                                      ###
+- #Required glmnt 2.0-2
+- #Output: 3 files
+- LASSO_output_MI.txt
+- MI_model_LASSO_MI.Rda
+- MI_predictors_LASSO_MI.Rda
+
+```
+> install_github("cran/glmnet")
+
+> model_predictors <- buildModel(flag, fv_full_data, outcomeName, folder)
+> model<-model_predictors$model
+> predictorsNames<-model_predictors$predictorsNames
+> auc <- model_predictors$auc
+#Save model
+> save(model, file=paste(folder,studyName,'_model_', flag$model[1], '_', outcomeName,".Rda",sep=''))
+#Save Predictors for model
+> save(predictorsNames, file=paste(folder,studyName,'_predictors_',flag$model[1], '_', outcomeName, ".Rda",sep=''))
+
+```
 
 
 ## Part 4.2 Methodology
