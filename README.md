@@ -869,8 +869,124 @@ casesANDcontrolspatient_ids_df<- getdPatientCohort(conn, dbms,as.character(keywo
 > save(model, file=paste(folder,studyName,'_model_', flag$model[1], '_', outcomeName,".Rda",sep=''))
 #Save Predictors for model
 > save(predictorsNames, file=paste(folder,studyName,'_predictors_',flag$model[1], '_', outcomeName, ".Rda",sep=''))
+```
+
+## Part 4.1.9
+- #See output from LASSO_output_MI.txt.
 
 ```
+
+Results for LASSO Model for-MI using 20 Controls. 
+
+
+Model Summary 
+ 
+            Length Class      Mode     
+a0            100  -none-     numeric  
+beta        46900  dgCMatrix  S4       
+df            100  -none-     numeric  
+dim             2  -none-     numeric  
+lambda        100  -none-     numeric  
+dev.ratio     100  -none-     numeric  
+nulldev         1  -none-     numeric  
+npasses         1  -none-     numeric  
+jerr            1  -none-     numeric  
+offset          1  -none-     logical  
+classnames      2  -none-     character
+call            5  -none-     call     
+nobs            1  -none-     numeric  
+lambdaOpt       1  -none-     numeric  
+xNames        469  -none-     character
+problemType     1  -none-     character
+tuneValue       2  data.frame list     
+obsLevels       2  -none-     character
+param           0  -none-     list     
+Confusion Matrix and Statistics
+
+          Reference
+Prediction F T
+         F 5 1
+         T 0 4
+                                         
+               Accuracy : 0.9            
+                 95% CI : (0.555, 0.9975)
+    No Information Rate : 0.5            
+    P-Value [Acc > NIR] : 0.01074        
+                                         
+                  Kappa : 0.8            
+                                         
+ Mcnemar's Test P-Value : 1.00000        
+                                         
+            Sensitivity : 0.8000         
+            Specificity : 1.0000         
+         Pos Pred Value : 1.0000         
+         Neg Pred Value : 0.8333         
+             Prevalence : 0.5000         
+         Detection Rate : 0.4000         
+   Detection Prevalence : 0.4000         
+      Balanced Accuracy : 0.9000         
+                                         
+       'Positive' Class : T              
+                                         
+
+Model Details 
+ 
+glmnet 
+
+ 30 samples
+469 predictors
+  2 classes: 'F', 'T' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 24, 24, 24, 24, 24 
+Resampling results across tuning parameters:
+
+  alpha  lambda      ROC        Sens       Spec       Fscore   
+  0.10   0.01961161  0.7777778  0.6000000  0.7333333  0.7251316
+  0.10   0.06201737  0.7777778  0.6000000  0.7333333  0.7251316
+  0.10   0.19611614  0.7777778  0.6666667  0.7333333  0.7275999
+  0.55   0.01961161  0.7777778  0.6666667  0.6000000  0.5959543
+  0.55   0.06201737  0.8666667  0.7333333  0.6000000  0.5959543
+  0.55   0.19611614  0.8222222  0.7333333  0.6000000  0.6001324
+  1.00   0.01961161  0.8222222  0.6666667  0.8000000  0.7916911
+  1.00   0.06201737  0.8222222  0.6666667  0.8000000  0.7949805
+  1.00   0.19611614  0.8000000  0.8000000  0.6666667  0.6692641
+
+Fscore was used to select the optimal model using the largest value.
+The final values used for the model were alpha = 1 and lambda = 0.06201737.
+
+glmnet variable importance
+
+  only 20 most important variables shown (out of 469)
+
+                  Overall
+con:314666      2.915e+00
+lab:3016311:0   7.281e-01
+obs:4213288     5.102e-01
+con:192671      5.000e-01
+lab:3001318:0   4.514e-01
+drugEx:19093848 4.110e-01
+con:42872402    3.003e-01
+lab:3047181:0   2.441e-01
+drugEx:40167213 9.339e-02
+pro:4097246     7.366e-02
+lab:3027114:0   3.496e-03
+lab:3004169:0   1.266e-15
+pro:4213288     3.574e-16
+lab:3007070:0   9.353e-17
+lab:3022621:0   0.000e+00
+drugEx:40240355 0.000e+00
+lab:3020716:NA  0.000e+00
+pro:4051172     0.000e+00
+lab:3004905:0   0.000e+00
+pro:2001514     0.000e+00
+
+Generated on Sun Nov 10 2019 06:15:59 PM
+
+```
+
+
 
 
 ## Part 4.2 Methodology
