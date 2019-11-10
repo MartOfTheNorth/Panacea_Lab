@@ -558,7 +558,7 @@ order by table_schema, table_name , row_count;
     - $ psql "$OMOP" -f "omop/build-omop/postgresql/OMOP CDM postgresql constraints.txt"  >>  /home/mart/output20191020a.log &
     - ## There are errors at this script.## 
 
-'''
+```
 psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:66: ERROR:  insert or update on table "concept" violates foreign key constraint "fpk_concept_domain"
 DETAIL:  Key (domain_id)=(Visit Detail) is not present in table "domain".
 
@@ -581,7 +581,7 @@ psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:393:
 DETAIL:  Key (attribute_definition_id)=(2) is not present in table "attribute_definition".
 psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:430: NOTICE:  ALTER TABLE / ADD UNIQUE will create implicit index "uq_concept_synonym" for table "concept_synonym"
 
-'''
+```
 
 
 # Part 4 - OHDSI - APHRODITE 
@@ -608,7 +608,7 @@ psql:omop/build-omop/postgresql/OMOP_CDM_postgresql_constraints_comment.txt:430:
 -#Install Aphrodite with install_github. Select option "3:None" (5 minutes)
 - > install_github("ohdsi/Aphrodite")
 
-'''
+```
 Downloading GitHub repo ohdsi/Aphrodite@master
 These packages have more recent versions available.
 Which would you like to update?
@@ -666,21 +666,21 @@ Installing 31 packages: data.table, DatabaseConnector, SqlRender, caret, pROC, k
 ** testing if installed package can be loaded
 * DONE (Aphrodite)
 >  
-'''
+```
 
 -#Loading  Aphrodite  (1 second)
 - > library(Aphrodite)
-'''
+```
 Loading required package: data.table
 data.table 1.12.6 using 40 threads (see ?getDTthreads).  Latest news: r-datatable.com
 > 
-'''
+```
 
 -#To update the /R/settings.R file with CDM connection information and Phenotyping settings.
 -#Copy /R/settings.R into /home/mart/APHRODITE/Aphrodite_outputs/settings.R
 - $ vi settings.R
 
-'''
+```
 cdmSchema = "omop"
 resultsSchema = "aphrodite_results"
 sourceName = "/home/mart/APHRODITE/Aphrodite_outputs"
@@ -688,29 +688,29 @@ dbms = "postgresql" #Should be "sql server", "oracle", "postgresql" or "redshift
 
 user <- "mimicuser"
 pw <- "userpassword"
-server <- "server.gsu.edu/mimic3"
+server <- "localhost/mimic3"
 port <- "5432"
-'''
+```
 
 -#To run sample code
 -##Copy /samples/complete_example.R into /home/mart/APHRODITE/Aphrodite_outputs/complete_example.R
 -##Edit the complete_example.R
 
 
-'''
+```
 folder = "/home/mart/APHRODITE/Aphrodite_outputs" 
 
 source("settings.R")  
 
 connectionDetails <- createConnectionDetails(dbms=dbms, server=server, user=user, password=pw, schema=cdmSchema, port=port)
 conn <- connect(connectionDetails)
-'''
+```
 
 
 -#To run sample code
 -##Uploading libraries
 
-'''
+```
 > library(Aphrodite)
 > library(SqlRender)
 > library(plyr)
@@ -719,27 +719,28 @@ conn <- connect(connectionDetails)
 > library(data.table)
 > library(DatabaseConnector)
 > library(ggplot2)
-'''
+```
 
 
 -#To run sample code
 -##Test the database connection in R promt
-'''
+```
 > folder = "/home/mart/APHRODITE/Aphrodite_outputs"
 > setwd(folder)
 > source("settings.R") 
 > connectionDetails <- createConnectionDetails(dbms=dbms, server=server, user=user, password=pw, schema=cdmSchema, port=port)
 > conn <- connect(connectionDetails)
 Connecting using PostgreSQL driver
-'''
+>
+```
 
--#Error
+-##If found error, check on the service IP address in pg_hba.conf. In Lab, we use "localhost".
 
-'''
+```
 Error in rJava::.jcall(jdbcDriver, "Ljava/sql/Connection;", "connect",  : 
-  org.postgresql.util.PSQLException: FATAL: no pg_hba.conf entry for host "131.96.155.246", user "mart", database "mimic3", SSL off
+  org.postgresql.util.PSQLException: FATAL: no pg_hba.conf entry for host "10.1.1.1", user "mimicuser", database "mimic3", SSL off
 > 
-'''
+```
 
 
 ## Part 4.2 Methodology
