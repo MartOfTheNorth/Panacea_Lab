@@ -679,6 +679,7 @@ data.table 1.12.6 using 40 threads (see ?getDTthreads).  Latest news: r-datatabl
 -#To update the /R/settings.R file with CDM connection information and Phenotyping settings.
 -#Copy /R/settings.R into /home/mart/APHRODITE/Aphrodite_outputs/settings.R
 - $ vi settings.R
+- Note : This file has set aphrodite_concept_name <- "myocardial infarction" which is the Phenotyping in this example."
 
 ```
 cdmSchema = "omop"
@@ -690,6 +691,10 @@ user <- "mimicuser"
 pw <- "userpassword"
 server <- "localhost/mimic3"
 port <- "5432"
+
+
+### CONCEPT to build a Phenotype for ###
+aphrodite_concept_name <- "myocardial infarction"
 ```
 
 -#To run sample code
