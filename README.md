@@ -698,8 +698,8 @@ aphrodite_concept_name <- "myocardial infarction"
 ```
 
 -#To run sample code
--##Copy /samples/complete_example.R into /home/mart/APHRODITE/Aphrodite_outputs/complete_example.R
--##Edit the complete_example.R
+- ##Copy /samples/complete_example.R into /home/mart/APHRODITE/Aphrodite_outputs/complete_example.R
+- ##Edit the complete_example.R
 
 
 ```
