@@ -713,7 +713,7 @@ conn <- connect(connectionDetails)
 
 
 -#To run sample code
--##Uploading libraries
+- ##Uploading libraries
 
 ```
 > library(Aphrodite)
@@ -728,7 +728,7 @@ conn <- connect(connectionDetails)
 
 
 -#To run sample code
--##Test the database connection in R promt
+- ##Test the database connection in R promt
 ```
 > folder = "/home/mart/APHRODITE/Aphrodite_outputs/"
 > setwd(folder)
@@ -739,7 +739,7 @@ Connecting using PostgreSQL driver
 >
 ```
 
--##If found error, check on the service IP address in pg_hba.conf. In Lab, we use "localhost".
+- ##If found error, check on the service IP address in pg_hba.conf. In Lab, we use "localhost".
 
 ```
 Error in rJava::.jcall(jdbcDriver, "Ljava/sql/Connection;", "connect",  : 
