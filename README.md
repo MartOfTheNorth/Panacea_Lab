@@ -1,5 +1,6 @@
-# Panacea_Lab
-Hello Panacea_Lab!!
+# Panacea_Lab 
+(My contibution of this lab was stopped in December 2019.)
+Hello from Panacea_Lab!!
 
 ## Lab Rules
 - ALL lab work MUST be done in the server. 
