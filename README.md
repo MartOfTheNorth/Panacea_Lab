@@ -1,5 +1,6 @@
 # Panacea_Lab 
-(My contibution of this lab was stopped in December 2019.)
+## (The contibution of this lab was stopped in December 2019.)
+
 Hello from Panacea_Lab!!
 
 ## Lab Rules
